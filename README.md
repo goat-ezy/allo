@@ -1,87 +1,108 @@
-# 🏫 Cahier des Charges - Site Web École Ajial Al Atlas
+# Documentation Technique - AjialAlAtlas
 
-## 📋 1. Présentation du Projet
-**Client:** École Ajial Al Atlas 🎓  
-**Durée:** 1 mois ⏱️
+## Vue d'ensemble
 
-### 🎯 1.1 Objectifs
-- 🌐 Créer une vitrine digitale moderne pour l'école
-- 👨‍👩‍👧‍👦 Améliorer la communication avec les parents
-- ⚡ Faciliter la gestion du contenu
-- 📢 Promouvoir les services de l'école
+AjialAlAtlas est un site web dynamique pour une école, développé avec PHP et MySQL. Il comprend une partie publique pour les visiteurs et un panneau d'administration sécurisé.
 
-## ⭐ 2. Fonctionnalités Principales
+## Structure des dossiers
 
-### 🌍 2.1 Interface Publique
-1. **🏠 Page d'Accueil**
-   - 🎬 Carrousel d'images dynamique
-   - 📰 Présentation des actualités récentes
-   - ✨ Section "Pourquoi nous choisir"
-   - 📊 Statistiques clés
+```
+AjialAlAtlas/
+├── assets/            # Ressources statiques (images, CSS, JS)
+├── backend/          
+│   ├── admin/        # Pages d'administration
+│   └── includes/     # Composants réutilisables
+└── database.sql      # Structure de la base de données
+```
 
-2. **📚 Section Notre École**
-   - 🏢 Présentation de l'établissement
-   - 📝 Histoire et valeurs
-   - 🏗️ Infrastructure
-   - 👨‍🏫 Équipe pédagogique
+## Prérequis
 
-3. **🎓 Niveaux d'Études**
-   - 📚 Présentation des cycles
-   - 📖 Programmes détaillés
-   - 🎨 Activités par niveau
-   - 🚀 Projets pédagogiques
+- PHP 7.4+
+- MySQL 5.7+
+- Apache 2.4+
+- Extensions PHP requises:
+  - PDO
+  - PDO_MYSQL
+  - GD
 
-4. **🚌 Transport Scolaire**
-   - 🗺️ Zones couvertes
-   - ⏰ Horaires
-   - ✅ Caractéristiques
-   - ℹ️ Informations pratiques
+## Installation
 
-### ⚙️ 2.2 Interface Administrative
-1. **📊 Tableau de Bord**
-   - 📈 Statistiques globales
-   - 🔄 Accès rapide aux fonctions
+1. Cloner le dépôt dans le dossier `htdocs` de XAMPP
+2. Créer une base de données MySQL nommée `ajialatlas`
+3. Importer le fichier `database.sql`
+4. Configurer les accès base de données dans `backend/includes/db.php`
+5. Accéder à l'administration via `/admin/login.php`
+   - Identifiants par défaut: 
+     - Utilisateur: admin
+     - Mot de passe: admin123
 
-2. **📝 Gestion des Pages**
-   - ✍️ Modification des textes
-   - 🖼️ Upload d'images
-   - 🔄 Mise à jour des sections
+## Base de données
 
-## 🛠️ 3. Spécifications Techniques
+### Tables principales
 
-### 💻 3.1 Technologies Utilisées
-- 🎨 Frontend : HTML5, CSS3 (Tailwind)
-- ⚡ Backend : PHP 8.x
-- 💾 Base de données : MySQL
-- 🔧 Frameworks : Alpine.js
+- `actualites` - Gestion des actualités
+- `activites` - Activités parascolaires
+- `equipe` - Membres de l'équipe
+- `contact_messages` - Messages du formulaire de contact
+- `statistics` - Statistiques affichées
+- `carousel_items` - Éléments du carrousel
 
-### 🔒 3.2 Sécurité
-- 🔑 Authentification admin
-- 🛡️ Protection des formulaires
-- ✅ Validation des données
-- 🔐 Sécurisation des uploads
+### Relations
 
-## ⏳ 4. Planning
+```mermaid
+erDiagram
+    actualites ||--o{ images : has
+    activites ||--o{ images : has
+    equipe ||--o{ membres : contains
+```
 
-### 📅 Planning Détaillé
-**Semaine 1**
-- 🔧 Configuration environnement
-- 💾 Structure de la base de données
-- 👤 Interface administrateur
+## Points d'API
 
-**Semaine 2**
-- 🎨 Développement frontend
-- 🎯 Intégration design
-- 📱 Pages principales
+### Publique
 
-**Semaine 3**
-- ⚡ Fonctionnalités dynamiques
-- 📝 Gestion des contenus
-- 🧪 Tests unitaires
+- `GET /activites.php` - Liste des activités
+- `GET /actualites.php` - Liste des actualités
+- `POST /process_contact.php` - Envoi de message de contact
 
-## 📦 5. Livrables
-- 💻 Code source commenté
-- 📊 Base de données optimisée
-- 📚 Documentation technique
-- 📖 Guide d'utilisation
-- 👨‍🏫 Formation administrateur
+### Administration
+
+- `/admin/login.php` - Authentification
+- `/admin/manage-*.php` - CRUD des différentes sections
+
+## Sécurité
+
+1. Protection contre les injections SQL via PDO
+2. Validation des fichiers uploadés
+3. Sessions sécurisées
+4. Protection CSRF sur les formulaires
+5. Échappement des données HTML
+
+## Fonctionnalités principales
+
+### Frontend
+
+- Navigation responsive
+- Carrousel dynamique
+- Formulaire de contact
+- Galerie d'images
+- Pages de contenu dynamiques
+
+### Backend
+
+- Tableau de bord administrateur
+- Gestion des utilisateurs
+- CRUD complet pour chaque section
+- Upload d'images sécurisé
+- Éditeur de contenu riche
+
+## Notes de développement
+
+1. Utiliser `htmlspecialchars()` pour l'affichage des données
+2. Valider tous les inputs utilisateur
+3. Maintenir les clés étrangères pour l'intégrité
+4. Optimiser les images uploadées
+5. Mettre en cache les requêtes fréquentes
+
+## Support
+
+Contact technique : [contact@ajialatlas.ma]
